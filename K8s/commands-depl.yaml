@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata: 
+  name: commands-depl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:  
+      app: commndservice
+  template:
+    metadata:
+      labels:
+        app: commndservice
+    spec:
+      containers:
+        - name: commndservice
+          image: codebind007/commndservice:latest
+---
+apiVersion: v1
+kind: Service
+metadata: 
+  name: commands-clusterip-srv
+spec:
+  type: ClusterIP
+  selector:
+    app: commndservice
+  ports:
+  - name: commndservice
+    protocol: TCP
+    port: 80
+    targetPort: 80
